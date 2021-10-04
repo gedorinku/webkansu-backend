@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  pg:
+    image: postgres:13-alpine
+    hostname: pg
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    restart: always
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    logging:
+      options:
+        max-size: 5m
+        max-file: "10"
+    ports:
+      - "127.0.0.1:5432:5432"
+
+volumes:
+  pg-data:
+    driver: local

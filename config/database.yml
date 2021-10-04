@@ -20,10 +20,10 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV['DATABASE_URL'] %>
 
 development:
   <<: *default
-  database: webkansu_backend_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +57,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: webkansu_backend_test
+  url: <%= ENV['TEST_DATABASE_URL'] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,6 +81,3 @@ test:
 #
 production:
   <<: *default
-  database: webkansu_backend_production
-  username: webkansu_backend
-  password: <%= ENV['WEBKANSU_BACKEND_DATABASE_PASSWORD'] %>
