@@ -35,11 +35,5 @@ ActiveRecord::Schema.define(version: 2021_10_05_123916) do
     t.index ["slug", "provider"], name: "index_novels_on_slug_and_provider", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "login_name", null: false
-    t.string "password_digest", null: false
-    t.index ["login_name"], name: "index_users_on_login_name", unique: true
-  end
-
   add_foreign_key "novel_chapters", "novels"
 end
