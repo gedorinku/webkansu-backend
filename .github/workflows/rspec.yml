@@ -5,7 +5,6 @@ on: [push, pull_request]
 jobs:
   rspec:
     runs-on: ubuntu-latest
-    container: ruby:2.7.4-alpine3.14
 
     services:
       postgres:
@@ -20,10 +19,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup
-        run: |
-          bin/bundle install
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
       - name: RSpec
         run: |
           bin/rails db:setup RAILS_ENV=test
