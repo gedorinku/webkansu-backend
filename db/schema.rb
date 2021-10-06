@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_124022) do
+ActiveRecord::Schema.define(version: 2021_10_06_160306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,14 @@ ActiveRecord::Schema.define(version: 2021_10_06_124022) do
     t.index ["slug", "provider"], name: "index_novels_on_slug_and_provider", unique: true
   end
 
+  create_table "user_novel_ownerships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "novel_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "novel_id"], name: "index_user_novel_ownerships_on_user_id_and_novel_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -49,4 +57,6 @@ ActiveRecord::Schema.define(version: 2021_10_06_124022) do
   end
 
   add_foreign_key "novel_chapters", "novels"
+  add_foreign_key "user_novel_ownerships", "novels"
+  add_foreign_key "user_novel_ownerships", "users"
 end
