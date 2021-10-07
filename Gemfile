@@ -28,6 +28,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'dotenv-rails'
 gem 'devise'
 gem 'devise_token_auth'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'rspec-rails', '~> 5.0.0'
