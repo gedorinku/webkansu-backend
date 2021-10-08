@@ -63,4 +63,26 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins '*'
+      resource '*',
+        headers: :any,
+        expose: [
+          'Access-Token',
+          'Token-Type',
+          'Client',
+          'Uid',
+          'Cache-Control',
+          'Content-Language',
+          'Content-Length',
+          'Content-Type',
+          'Expires',
+          'Last-Modified',
+          'Pragma',
+        ],
+        methods: [:get, :post, :put, :patch, :delete, :options]
+    end
+  end
 end
