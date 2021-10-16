@@ -8,5 +8,7 @@ class AddToUserNovelOwnerships < ActiveRecord::Migration[6.1]
 
       t.index [:user_id, :provider, :slug], unique: true
     end
+
+    add_foreign_key :bookmarks, :user_novel_ownerships
   end
 end

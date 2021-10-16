@@ -49,5 +49,6 @@ ActiveRecord::Schema.define(version: 2021_10_16_051507) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "bookmarks", "user_novel_ownerships"
   add_foreign_key "user_novel_ownerships", "users"
 end
