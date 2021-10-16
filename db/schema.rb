@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_160306) do
+ActiveRecord::Schema.define(version: 2021_10_08_104036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.bigint "user_novel_ownership_id", null: false
+    t.string "slug", null: false
+    t.string "position", null: false
+    t.string "title_cache", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_novel_ownership_id"], name: "index_bookmarks_on_user_novel_ownership_id", unique: true
+  end
 
   create_table "novel_chapters", force: :cascade do |t|
     t.string "title", null: false
