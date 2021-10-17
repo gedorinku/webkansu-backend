@@ -298,6 +298,7 @@ components:
           type: string
         bookmark:
           description: "しおりの位置を表す。"
+          nullable: true
           $ref: "#/components/schemas/Bookmark"
 
     Bookmark:
