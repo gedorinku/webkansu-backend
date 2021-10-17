@@ -30,7 +30,7 @@ RSpec.describe "Api::User::Novels", type: :request do
     let!(:current_user) { create(:user) }
     sign_in(:current_user)
 
-    let!(:user_novel_ownership) { create(:user_novel_ownership, user: current_user) }
+    let!(:user_novel_ownership) { create(:user_novel_ownership_with_bookmark, user: current_user) }
 
     it "returns" do
       get "/api/user/novels"
@@ -42,7 +42,7 @@ RSpec.describe "Api::User::Novels", type: :request do
     let!(:current_user) { create(:user) }
     sign_in(:current_user)
 
-    let!(:user_novel_ownership) { create(:user_novel_ownership, user: current_user) }
+    let!(:user_novel_ownership) { create(:user_novel_ownership_with_bookmark, user: current_user) }
 
     it "returns" do
       get "/api/user/novels/find", params: { provider: "narou", slug: user_novel_ownership.slug }
