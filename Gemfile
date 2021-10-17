@@ -30,6 +30,7 @@ gem 'devise'
 gem 'devise_token_auth'
 gem 'rack-cors'
 gem 'committee'
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'rspec-rails', '~> 5.0.0'

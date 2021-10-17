@@ -66,4 +66,12 @@ RSpec.configure do |config|
 
   config.include Requests::AuthHelpers::Includables, type: :request
   config.extend Requests::AuthHelpers::Extensions, type: :request
+  config.include Committee::Rails::Test::Methods, type: :request
+
+  config.add_setting :committee_options
+  config.committee_options = {
+    schema_path: Rails.root.join('openapi.yml').to_s,
+    query_hash_key: 'rack.request.query_hash',
+    parse_response_by_content_type: false,
+  }
 end

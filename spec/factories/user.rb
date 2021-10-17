@@ -1,4 +1,3 @@
-# This will guess the User class
 FactoryBot.define do
   factory :user do
     sequence(:uid) { |idx| "user_#{idx}@example.com" }
