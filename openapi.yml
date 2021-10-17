@@ -116,6 +116,7 @@ paths:
       description: "ログインしているユーザーの情報を返す。"
       responses:
         '200':
+          description: ""
           content:
             application/json:
               schema:
@@ -133,6 +134,7 @@ paths:
       description: "読んだ小説の一覧を返す。"
       responses:
         '200':
+          description: ""
           content:
             application/json:
               schema:
@@ -166,6 +168,7 @@ paths:
                   type: string
       responses:
         '200':
+          description: ""
           content:
             application/json:
               schema:
@@ -176,15 +179,18 @@ paths:
       parameters:
         - in: query
           name: provider
+          required: true
           schema: 
             $ref: "#/components/schemas/NovelProvider"
         - in: query
           name: slug
+          required: true
           description: "`n0123ab` などのprovider のサービス内で、小説の URL を組み立てるための文字列。"
           schema:
             type: string
       responses:
         '200':
+          description: ""
           content:
             application/json:
               schema:
@@ -221,6 +227,7 @@ paths:
                   type: string
       responses:
         '200':
+          description: ""
           content:
             application/json:
               schema:
