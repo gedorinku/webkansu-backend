@@ -5,6 +5,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
     description: dev
+
 paths:
   /api/auth:
     post:
@@ -36,6 +37,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RegisterUserResponseBody"
+
   /api/auth/sign_in:
     post:
       operationId: "signIn"
@@ -66,6 +68,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SignInResponseBody"
+
   /api/user:
     get:
       operationId: "getCurrentUser"
@@ -77,6 +80,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetCurrentUserResponseBody"
+
   /api/user/novels:
     get:
       operationId: "listNovels"
@@ -106,6 +110,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Novel"
+
   /api/user/novels/find:
     get:
       operationId: "getNovelBySlug"
@@ -129,6 +134,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Novel"
+
   /api/user/novels/{id}/bookmark:
     post:
       operationId: "createBookmark"
@@ -169,6 +175,7 @@ components:
           type: string
         password_confirmation:
           type: string
+
     RegisterUserResponseBody:
       type: object
       required:
@@ -266,6 +273,7 @@ components:
       type: string
       enum:
         - narou
+
     Novel:
       type: object
       required:
@@ -291,6 +299,7 @@ components:
         bookmark:
           description: "しおりの位置を表す。"
           $ref: "#/components/schemas/Bookmark"
+
     Bookmark:
       type: object
       required:
