@@ -18,6 +18,10 @@
 #                                          POST   /api/auth(.:format)                                                                               devise_token_auth/registrations#create
 #                  api_auth_validate_token GET    /api/auth/validate_token(.:format)                                                                devise_token_auth/token_validations#validate_token
 #                                 api_user GET    /api/user(.:format)                                                                               api/user#show
+#                  api_user_novel_bookmark GET    /api/user/novels/:novel_id/bookmark(.:format)                                                     api/user/bookmark#show
+#                          api_user_novels GET    /api/user/novels(.:format)                                                                        api/user/novels#index
+#                                          POST   /api/user/novels(.:format)                                                                        api/user/novels#create
+#                     api_user_novels_find GET    /api/user/novels/find(.:format)                                                                   api/user/novels#find
 #            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
 #               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
 #            rails_sendgrid_inbound_emails POST   /rails/action_mailbox/sendgrid/inbound_emails(.:format)                                           action_mailbox/ingresses/sendgrid/inbound_emails#create
@@ -49,5 +53,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'user', to: 'user#show'
+
+    namespace :user do
+      resources :novels, only: [:index, :create] do
+        get 'bookmark', to: 'bookmark#show'
+      end
+      get 'novels/find', to: 'novels#find'
+    end
   end
 end

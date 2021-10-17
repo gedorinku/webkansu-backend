@@ -36,5 +36,11 @@ module WebkansuBackend
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    config.middleware.use Committee::Middleware::RequestValidation,
+      schema_path: 'openapi.yml',
+      coerce_date_times: true,
+      query_hash_key: 'rack.request.query_hash',
+      parse_response_by_content_type: false
   end
 end

@@ -6,6 +6,8 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'support/factory_bot'
+require 'support/requests/devise_token_auth'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -61,4 +63,15 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.include Requests::AuthHelpers::Includables, type: :request
+  config.extend Requests::AuthHelpers::Extensions, type: :request
+  config.include Committee::Rails::Test::Methods, type: :request
+
+  config.add_setting :committee_options
+  config.committee_options = {
+    schema_path: Rails.root.join('openapi.yml').to_s,
+    query_hash_key: 'rack.request.query_hash',
+    parse_response_by_content_type: false,
+  }
 end

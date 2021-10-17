@@ -12,4 +12,8 @@
 #  author_name_cache :string           not null
 #
 class UserNovelOwnership < ApplicationRecord
+  enum provider: [:narou]
+
+  belongs_to :user, inverse_of: :user_novel_ownerships
+  has_one :bookmark, dependent: :destroy
 end

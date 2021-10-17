@@ -11,4 +11,5 @@
 #  updated_at              :datetime         not null
 #
 class Bookmark < ApplicationRecord
+  belongs_to :user_novel_ownership, inverse_of: :bookmark
 end
