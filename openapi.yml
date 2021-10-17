@@ -1,0 +1,281 @@
+openapi: 3.0.0
+info:
+  title: webkansu-backend
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+    description: dev
+paths:
+  /api/auth:
+    post:
+      description: "ユーザー登録をする。"
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - email
+                  - password
+                  - password_confirmation
+                properties:
+                  email:
+                    type: string
+                  password:
+                    type: string
+                  password_confirmation:
+                    type: string
+      responses:
+        '200':
+          description: "この時のレスポンスヘッダーをリクエストヘッダーに含めると、認証が必要なリクエストができる。"
+          headers:
+            Token-Type:
+              schema:
+                type: string
+            Uid:
+              schema:
+                type: string
+            Client:
+              schema:
+                type: string
+            Access-Token:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - data
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    required:
+                      - id
+                      - provider
+                      - uid
+                      - email
+                      - created_at
+                      - updated_at
+                    properties:
+                      id:
+                        type: integer
+                      provider:
+                        type: string
+                      uid:
+                        type: string
+                      email:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+  /api/auth/sign_in:
+    post:
+      description: "ログインする。"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: "この時のレスポンスヘッダーをリクエストヘッダーに含めると、認証が必要なリクエストができる。"
+          headers:
+            Token-Type:
+              schema:
+                type: string
+            Uid:
+              schema:
+                type: string
+            Client:
+              schema:
+                type: string
+            Access-Token:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/user:
+    get:
+      description: "ログインしているユーザーの情報を返す。"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - uid
+                properties:
+                  id:
+                    type: integer
+                  uid:
+                    type: string
+  /api/user/novels:
+    get:
+      description: "読んだ小説の一覧を返す。"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Novel"
+    post:
+      description: "小説を追加する。"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - author_name
+                - provider
+                - slug
+              properties:
+                title:
+                  description: "小説のタイトル。"
+                  type: string
+                author_name:
+                  description: "小説の著者名。"
+                  type: string
+                provider:
+                  $ref: "#/components/schemas/NovelProvider"
+                slug:
+                  description: "`n0123ab` などのprovider のサービス内で、小説の URL を組み立てるための文字列。"
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Novel"
+  /api/user/novels/find:
+    get:
+      description: "slug から読んだことのある小説と最後に読んだ位置を返す。"
+      parameters:
+        - in: query
+          name: provider
+          schema: 
+            $ref: "#/components/schemas/NovelProvider"
+        - in: query
+          name: slug
+          description: "`n0123ab` などのprovider のサービス内で、小説の URL を組み立てるための文字列。"
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Novel"
+  /api/user/novels/{id}/bookmark:
+    post:
+      description: "しおりを作成する。"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "小説のid。"
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - slug
+                - position
+                - title
+              properties:
+                slug:
+                  description: "チャプターの URL を組み立てるための文字列。`/n0123ab/1/`の `1` にあたる。"
+                  type: string
+                position:
+                  description: "スクロール位置を表す文字列。HTML の id 属性の値などが入る。"
+                  type: string
+                title:
+                  description: "チャプターのタイトル。"
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bookmark"
+
+components:
+  schemas:
+    NovelProvider:
+      description: "小説が掲載されているサービスを表す。"
+      type: string
+      enum:
+        - narou
+    Novel:
+      type: object
+      required:
+        - id
+        - title
+        - author_name
+        - provider
+        - slug
+      properties:
+        id:
+          type: integer
+        title:
+          description: "小説のタイトル。"
+          type: string
+        author_name:
+          description: "小説の著者名。"
+          type: string
+        provider:
+          $ref: "#/components/schemas/NovelProvider"
+        slug:
+          description: "`n0123ab` などのprovider のサービス内で、小説の URL を組み立てるための文字列。"
+          type: string
+        bookmark:
+          description: "しおりの位置を表す。"
+          $ref: "#/components/schemas/Bookmark"
+    Bookmark:
+      type: object
+      required:
+        - slug
+        - position
+        - title
+        - updated_at
+      properties:
+        slug:
+          description: "チャプターの URL を組み立てるための文字列。`/n0123ab/1/`の `1` にあたる。"
+          type: string
+        position:
+          description: "スクロール位置を表す文字列。HTML の id 属性の値などが入る。"
+          type: string
+        title:
+          description: "チャプターのタイトル。"
+          type: string
+        updated_at:
+          description: "しおりの更新日時。"
+          type: string
+          format: date-time
