@@ -8,6 +8,7 @@ servers:
 paths:
   /api/auth:
     post:
+      operationId: "registerUser"
       description: "ユーザー登録をする。"
       requestBody:
           required: true
@@ -76,6 +77,7 @@ paths:
                         type: string
   /api/auth/sign_in:
     post:
+      operationId: "signIn"
       description: "ログインする。"
       requestBody:
         required: true
@@ -113,6 +115,7 @@ paths:
                 type: object
   /api/user:
     get:
+      operationId: "getCurrentUser"
       description: "ログインしているユーザーの情報を返す。"
       responses:
         '200':
@@ -131,6 +134,7 @@ paths:
                     type: string
   /api/user/novels:
     get:
+      operationId: "listNovels"
       description: "読んだ小説の一覧を返す。"
       responses:
         '200':
@@ -142,6 +146,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Novel"
     post:
+      operationId: "createNovel"
       description: "小説を追加する。"
       requestBody:
         required: true
@@ -175,6 +180,7 @@ paths:
                 $ref: "#/components/schemas/Novel"
   /api/user/novels/find:
     get:
+      operationId: "getNovelBySlug"
       description: "slug から読んだことのある小説と最後に読んだ位置を返す。"
       parameters:
         - in: query
@@ -197,6 +203,7 @@ paths:
                 $ref: "#/components/schemas/Novel"
   /api/user/novels/{id}/bookmark:
     post:
+      operationId: "createBookmark"
       description: "しおりを作成する。"
       parameters:
         - in: path
