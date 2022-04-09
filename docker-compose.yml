@@ -2,7 +2,7 @@ version: "3"
 
 services:
   pg:
-    image: postgres:13-alpine
+    image: postgres:14.2-alpine
     hostname: pg
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
